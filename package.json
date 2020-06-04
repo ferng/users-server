@@ -1,0 +1,28 @@
+{
+  "name": "users-server",
+  "version": "1.0.0",
+  "description": "server for users system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/index.js",
+    "test": "echo \"Error: no test\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ferng/users-server.git"
+  },
+  "keywords": [
+    "inspired",
+    "mobile"
+  ],
+  "author": "fern gonzalez",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ferng/users-server/issues"
+  },
+  "homepage": "https://github.com/ferng/users-server#readme",
+  "dependencies": {
+    "@types/node": "^14.0.10",
+    "express": "^4.17.1"
+  }
+}
