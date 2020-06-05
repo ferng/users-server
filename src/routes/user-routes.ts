@@ -7,12 +7,17 @@ export class UserRoutes {
 
   static async get_users(request: express.Request, response: express.Response) {
     const userId = request.params[0]
-    if (userId === "") {
-      let users = await methods.getAllUsers()
-      response.json(users)
-    } else {
-      let user = await methods.getUserById(userId)
-      response.json(user)
+    try {
+      if (userId === "") {
+        let users = await methods.getAllUsers()
+        response.json(users)
+      } else {
+        let user = await methods.getUserById(userId)
+        response.json(user)
+      }
+    } catch (error) {
+      console.error(error)
+      response.status(500).send('')
     }
   }
 
