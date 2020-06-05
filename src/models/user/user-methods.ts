@@ -5,9 +5,16 @@ import { UserModel } from './user-model'
 export async function getUserById(
   userId: string
 ): Promise<IUserDocument> {
-  let myUser : IUserDocument
-  await UserModel.findById(userId, function (err, user) { myUser = new UserModel(user) } )
-  return myUser
+  let user : IUserDocument
+  await UserModel.findById(userId, function (err, dbUser) { user = new UserModel(dbUser) } )
+  return user
+}
+
+export async function getAllUsers(
+): Promise<[IUserDocument]> {
+  let users : [IUserDocument]
+  await UserModel.find({}, function (err, dbUsers) { users = dbUsers } )
+  return users
 }
 
 // export async function create(
