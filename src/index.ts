@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as mongoose from "mongoose";
 import { UserRoutes } from './routes/user-routes'
 
 import { Db } from './utils/db-connection'
@@ -23,6 +24,9 @@ abstract class App {
     const db = new Db('mongodb://localhost:27017')
     db.init()
     
+    // mongoose debugging
+    mongoose.set('debug', true);
+
     // comment this line out to prevent recreation of test data
 //     Generator.users();
   }

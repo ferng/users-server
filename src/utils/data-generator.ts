@@ -12,7 +12,6 @@ export class Generator {
       ]
 
       try {
-
         UserModel.deleteMany({}, ()=> {})
 
         for (const user of users) {

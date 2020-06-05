@@ -2,7 +2,6 @@ import { Document, Model } from 'mongoose'
 
 
 export interface IUser {
-  _id: string
   name: string
   email: string
   dob: Date
@@ -11,6 +10,7 @@ export interface IUser {
 }
 
 export interface IUserDocument extends IUser, Document {}
+
 export interface IUserModel extends Model<IUserDocument> {
   create: (
     this: IUserModel,

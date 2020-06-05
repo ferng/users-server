@@ -1,14 +1,14 @@
 import * as express from 'express'
 import { UserModel } from '../models/user/user-model';
+import { IUserDocument } from '../models/user/user-types';
+import { getUserById } from '../models/user/user-methods'
 
 export class UserRoutes {
   
   static async get_users(request: express.Request, response: express.Response) {
     const userId = request.params[0]
-    console.log(userId)
-    UserModel.findById(userId, function (err, user) { console.log(user) } );
-//     let user = new UserModel({ name: "Phil Potts", email: "phil@email.com", dob: "1980-01-01", created: Date.now(), updated: Date.now() })
-//     await UserModel.create(user);
+    let user = await getUserById(userId)
+    response.json(user)
   }
 
 }
