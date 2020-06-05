@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-const UserSchema: Schema = new Schema({
+export const UserSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String },
   dob: { type: Date},
@@ -8,4 +8,3 @@ const UserSchema: Schema = new Schema({
   updated: { type: Date }
 })
 
-export default UserSchema

@@ -27,7 +27,7 @@ export interface IUserModel extends Model<IUserDocument> {
       created: Date
       updated: Date
     }
-  ) => Promise<IUserDocument>;
+  ) => Promise<IUserDocument>
 
   findById: (
     this: IUserModel,
@@ -36,7 +36,7 @@ export interface IUserModel extends Model<IUserDocument> {
     }:{
       _id: string
     }
-  ) => Promise<IUserDocument>;
+  ) => Promise<IUserDocument>
 
   //   deleteById: (
   //     this: IUserModel,

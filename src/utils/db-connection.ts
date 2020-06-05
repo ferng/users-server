@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 
 export class Db {
   url: string
-  
+
   constructor(url: string) {
     this.url = url
   }

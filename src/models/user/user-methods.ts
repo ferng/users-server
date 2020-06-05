@@ -1,5 +1,5 @@
-import { IUserDocument, IUserModel } from "./user-types";
-import { UserModel } from './user-model';
+import { IUserDocument, IUserModel } from "./user-types"
+import { UserModel } from './user-model'
 
 
 export async function getUserById(
@@ -7,7 +7,7 @@ export async function getUserById(
 ): Promise<IUserDocument> {
   let myUser : IUserDocument
   await UserModel.findById(userId, function (err, user) { myUser = new UserModel(user) } )
-  return myUser;
+  return myUser
 }
 
 // export async function create(
