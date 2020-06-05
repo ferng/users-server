@@ -1,24 +1,32 @@
-import * as express from 'express'
+import * as express from "express";
 import { UserModel } from '../models/user/user-model'
 import { IUserDocument } from '../models/user/user-types'
 import * as methods from '../models/user/user-methods'
 
-export class UserRoutes {
+export const router = express.Router()
 
-  static async get_users(request: express.Request, response: express.Response) {
-    const userId = request.params[0]
-    try {
-      if (userId === "") {
-        let users = await methods.getAllUsers()
-        response.json(users)
-      } else {
-        let user = await methods.getUserById(userId)
-        response.json(user)
-      }
-    } catch (error) {
-      console.error(error)
-      response.status(500).send('')
+router.get('/*', async (req: express.Request, res: express.Response) => {
+  const userId = req.params[0]
+  try {
+    res.status(200)
+    if (userId === "") {
+      let users = await methods.getAllUsers()
+      res.json(users)
+    } else {
+      let user = await methods.getUserById(userId)
+      res.json(user)
     }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('')
   }
+})
 
-}
+
+//   static async put_user(req: express.Request, res: express.Response) {
+//     let data = req.body
+//     let user = new UserModel(data)
+//     console.log(user)
+//       res.status(200).send('')
+//   }
+// }

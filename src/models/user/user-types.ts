@@ -42,7 +42,19 @@ export interface IUserModel extends Model<IUserDocument> {
   
   find: (
     this: IUserModel,
-    {}:{}
+    {
+      name,
+      email,
+      dob,
+      created,
+      updated
+    }:{
+      name: string
+      email: string
+      dob: Date
+      created: Date
+      updated: Date
+    }
   ) => Promise<[IUserDocument]>
   
   
