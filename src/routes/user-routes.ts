@@ -23,10 +23,42 @@ router.get('/*', async (req: express.Request, res: express.Response) => {
 })
 
 
-//   static async put_user(req: express.Request, res: express.Response) {
-//     let data = req.body
-//     let user = new UserModel(data)
-//     console.log(user)
-//       res.status(200).send('')
-//   }
-// }
+router.post('/*', async (req: express.Request, res: express.Response) => {
+  let data = req.body
+  let user = new UserModel(data)
+  try {
+    await methods.createUser(user)
+    res.status(200).send('')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('')
+  }
+})
+
+
+router.put('/*', async (req: express.Request, res: express.Response) => {
+  const userId = req.params[0]
+  let data = req.body
+  let user = data
+  try {
+    let what = await methods.updateUser(userId, user)
+    res.status(200).send('')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('')
+  }
+})
+
+
+router.delete('/*', async (req: express.Request, res: express.Response) => {
+  const userId = req.params[0]
+  let data = req.body
+  let user = data
+  try {
+    let what = await methods.deleteUser(userId)
+    res.status(200).send('')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('')
+  }
+})

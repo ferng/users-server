@@ -6,50 +6,51 @@ export async function getUserById(
   userId: string
 ): Promise<IUserDocument> {
   let user : IUserDocument
-  await UserModel.findById(userId, function (err, dbUser) { user = new UserModel(dbUser) } )
+  user = await UserModel.findById(userId)
   return user
 }
+
 
 export async function getAllUsers(
 ): Promise<[IUserDocument]> {
   let users : [IUserDocument]
-  await UserModel.find({}, function (err, dbUsers) { users = dbUsers } )
+  users = await UserModel.find({} )
   return users
 }
 
-// export async function create(
-//   this: IUserModel,
-//   name: string,
-//   email: string,
-//   dob: Date,
-//   created: Date,
-//   updated: Date
-// ): Promise<IUserDocument> {
-//   const query = await this.create({ name, email, dob, created, updated });
-//   return query;
-// }
-// 
-// export async function findById(
-//   userId: string
-// ): Promise<IUserDocument> {
-//   const query = await this.findById({ _id: userId });
-//   console.log(query)
-//   return query;
-// }
 
-// 
-// export async function deleteById(
-//   this: IUserModel,
-//   userId: string
-// ): Promise<IUserDocument> {
-//   const record = await this.findOne({ userId });
-//   return record;
-// }
-// 
-// export async function updateById(
-//   this: IUserModel,
-//   userId: string
-// ): Promise<IUserDocument> {
-//   const record = await this.findByIdAndUpdate({ userId });
-//   return record;
-// }
+export async function createUser(
+  user: IUserDocument
+): Promise<IUserDocument> {
+  try {
+    await UserModel.create(user);
+  } catch (error) {
+    console.error(error)
+  }
+  return user
+}
+
+
+export async function updateUser(
+  userId: string,
+  user: IUserDocument
+): Promise<IUserDocument> {
+  try {
+    await UserModel.replaceOne({_id: userId}, user)
+  } catch (error) {
+    console.error(error)
+  }
+  return user
+}
+
+
+export async function deleteUser(
+  userId: string,
+): Promise<boolean> {
+  try {
+    await UserModel.findByIdAndDelete({_id: userId})
+  } catch (error) {
+    console.error(error)
+  }
+  return true
+}

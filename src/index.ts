@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as bodyParser from 'body-parser'
 import * as mongoose from "mongoose"
 import { router } from './routes/user-routes'
 
@@ -15,7 +16,7 @@ abstract class App {
     console.log('Inbound request:', req.method, req.originalUrl);
     //     res.setHeader('Access-Control-Allow-Origin', config.app.base_url);
     //   res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, PUT');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT');
     res.setHeader('Cache-Control', 'no-cache');
     next();
   }
@@ -24,8 +25,8 @@ abstract class App {
     const server = express()
 
     server.set('port', 3000);
-    //     server.use(bodyParser.json());
-    //     server.use(bodyParser.urlencoded({ extended:  false }));
+    server.use(bodyParser.json());
+    server.use(bodyParser.urlencoded({ extended:  false }));
     server.use(App.requestHandler);
     server.use(`/users`, router);
     server.listen(server.get('port'));
