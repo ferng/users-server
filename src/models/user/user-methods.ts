@@ -1,3 +1,4 @@
+import { Query } from "mongoose"
 import { IUserDocument, IUserModel } from "./user-types"
 import { UserModel } from './user-model'
 
@@ -7,6 +8,11 @@ export async function getUserById(
 ): Promise<IUserDocument> {
   let user : IUserDocument
   user = await UserModel.findById(userId)
+  if (user === null) {
+    const error = new Error('User does not exist')
+    error.name = 'MissingResource'
+    throw error
+  }
   return user
 }
 
@@ -22,11 +28,7 @@ export async function getAllUsers(
 export async function createUser(
   user: IUserDocument
 ): Promise<IUserDocument> {
-  try {
-    await UserModel.create(user);
-  } catch (error) {
-    console.error(error)
-  }
+  await UserModel.create(user);
   return user
 }
 
@@ -35,22 +37,24 @@ export async function updateUser(
   userId: string,
   user: IUserDocument
 ): Promise<IUserDocument> {
-  try {
-    await UserModel.replaceOne({_id: userId}, user)
-  } catch (error) {
-    console.error(error)
+  let query: Query
+  delete user._id
+  console.log(user)
+  query = await UserModel.replaceOne({'_id': userId}, user)
+  console.log(query)
+  if (query.n === 0) {
+    const error = new Error('User does not exist so was not updated')
+    error.name = 'MissingResource'
+    throw error
   }
-  return user
+  return query.value
 }
 
 
 export async function deleteUser(
   userId: string,
-): Promise<boolean> {
-  try {
-    await UserModel.findByIdAndDelete({_id: userId})
-  } catch (error) {
-    console.error(error)
-  }
-  return true
+): Promise<IUserDocument> {
+  let query: Query
+  query = await UserModel.findByIdAndDelete({'_id': userId}, {'rawResult': true})
+  return query.value 
 }

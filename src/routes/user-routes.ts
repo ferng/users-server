@@ -17,8 +17,14 @@ router.get('/*', async (req: express.Request, res: express.Response) => {
       res.json(user)
     }
   } catch (error) {
-    console.error(error)
-    res.status(500).send('')
+    if (error.name === 'MissingResource')  {
+      res.status(404)
+    } else {
+      res.status(500)
+      error.message('Internal Server Error')
+    }
+    res.set('Content-Type', 'text/plain')
+    res.send(error.message)
   }
 })
 
@@ -28,10 +34,13 @@ router.post('/*', async (req: express.Request, res: express.Response) => {
   let user = new UserModel(data)
   try {
     await methods.createUser(user)
-    res.status(200).send('')
+    res.status(200)
+    res.json(user)
   } catch (error) {
-    console.error(error)
-    res.status(500).send('')
+    res.status(500)
+    error.message('Internal Server Error')
+    res.set('Content-Type', 'text/plain')
+    res.send(error.message)
   }
 })
 
@@ -41,24 +50,31 @@ router.put('/*', async (req: express.Request, res: express.Response) => {
   let data = req.body
   let user = data
   try {
-    let what = await methods.updateUser(userId, user)
-    res.status(200).send('')
+    await methods.updateUser(userId, user)
+    res.status(200)
+    res.json(user)
   } catch (error) {
-    console.error(error)
-    res.status(500).send('')
+    if (error.name === 'MissingResource')  {
+      res.status(404)
+    } else {
+      res.status(500)
+    }
+    res.set('Content-Type', 'text/plain')
+    res.send(error.message)
   }
 })
 
 
 router.delete('/*', async (req: express.Request, res: express.Response) => {
   const userId = req.params[0]
-  let data = req.body
-  let user = data
   try {
-    let what = await methods.deleteUser(userId)
-    res.status(200).send('')
+    let user = await methods.deleteUser(userId)
+    res.status(200)
+    res.json(user)
   } catch (error) {
-    console.error(error)
-    res.status(500).send('')
+    res.status(500)
+    error.message('Internal Server Error')
+    res.set('Content-Type', 'text/plain')
+    res.send(error.message)
   }
 })
