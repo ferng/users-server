@@ -39,9 +39,7 @@ export async function updateUser(
 ): Promise<IUserDocument> {
   let query: Query
   delete user._id
-  console.log(user)
   query = await UserModel.replaceOne({'_id': userId}, user)
-  console.log(query)
   if (query.n === 0) {
     const error = new Error('User does not exist so was not updated')
     error.name = 'MissingResource'

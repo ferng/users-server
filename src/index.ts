@@ -1,8 +1,9 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as mongoose from "mongoose"
-import { router } from './routes/user-routes'
 
+import * as config from "./config.json"
+import { router } from './routes/user-routes'
 import { Db } from './utils/db-connection'
 import { Generator } from './utils/data-generator' 
 
@@ -23,22 +24,26 @@ abstract class App {
 
   static start_server(): void {
     const server = express()
+    const port = config.app.port
+    const path = config.app.url_path
+    const db_url = config.db.url
+    const mongoose_debug = config.db.mongoose_debug
+    const test_data = config.app.test_data
 
-    server.set('port', 3000);
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended:  false }));
     server.use(App.requestHandler);
-    server.use(`/users`, router);
-    server.listen(server.get('port'));
+    server.use(`/${path}`, router);
+    server.listen(port);
 
-    const db = new Db('mongodb://localhost:27017')
+    const db = new Db(db_url)
     db.init()
 
-    // mongoose debugging
-    mongoose.set('debug', true)
+    mongoose.set('debug', mongoose_debug)
 
-    // comment this line out to prevent recreation of test data
-    //     Generator.users();
+    if (test_data) {
+      Generator.users();
+    }
   }
 }
 

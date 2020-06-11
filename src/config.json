@@ -1,0 +1,17 @@
+{
+  "app": {
+    "url_path": "users",
+    "port": 3000,
+    "test_data": false
+  },
+  "db": {
+    "url": "mongodb://localhost:27017",
+    "mongoose_debug": true
+  },
+  "logger" : {
+    "appname": "users",
+    "file_name": "users.log.json",
+    "file_level": "trace",
+    "console_level": "trace"
+  }
+}

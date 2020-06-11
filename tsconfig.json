@@ -4,7 +4,8 @@
     "target": "esnext",
     "outDir": "./build",
     "sourceMap": true,
-    "watch": true
+    "watch": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
