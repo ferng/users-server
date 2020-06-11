@@ -3,18 +3,20 @@ import * as bodyParser from 'body-parser'
 import * as mongoose from "mongoose"
 
 import * as config from "./config.json"
+import * as logger from "./utils/logger"
 import { router } from './routes/user-routes'
 import { Db } from './utils/db-connection'
 import { Generator } from './utils/data-generator' 
 
 
 abstract class App {
+  static log = logger.getLogger()
   static init(): any {
     return App.start_server()
   }
 
   static requestHandler(req: express.Request, res: express.Response, next: Function) {
-    console.log('Inbound request:', req.method, req.originalUrl);
+    App.log.debug('Inbound request:', req.method, req.originalUrl);
     //     res.setHeader('Access-Control-Allow-Origin', config.app.base_url);
     //   res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT');
@@ -39,6 +41,11 @@ abstract class App {
     const db = new Db(db_url)
     db.init()
 
+    var MongooseLogger  = mongoose.mongo.Logger;
+    MongooseLogger.setCurrentLogger(function(msg, context) {
+      App.log.debug(context);
+    });
+    MongooseLogger.setLevel('debug');
     mongoose.set('debug', mongoose_debug)
 
     if (test_data) {

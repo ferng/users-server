@@ -5,7 +5,7 @@
     "test_data": false
   },
   "db": {
-    "url": "mongodb://localhost:27017",
+    "url": "mongodb://localhost:27017/main",
     "mongoose_debug": true
   },
   "logger" : {
