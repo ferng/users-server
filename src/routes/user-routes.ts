@@ -1,9 +1,12 @@
 import * as express from "express";
+
 import { UserModel } from '../models/user/user-model'
 import { IUserDocument } from '../models/user/user-types'
 import * as methods from '../models/user/user-methods'
+import * as logger from "../utils/logger"
 
 export const router = express.Router()
+const log = logger.getLogger()
 
 router.get('/*', async (req: express.Request, res: express.Response) => {
   const userId = req.params[0]
@@ -20,6 +23,7 @@ router.get('/*', async (req: express.Request, res: express.Response) => {
     if (error.name === 'MissingResource')  {
       res.status(404)
     } else {
+      log.error(error)
       res.status(500)
       error.message('Internal Server Error')
     }
@@ -37,6 +41,7 @@ router.post('/*', async (req: express.Request, res: express.Response) => {
     res.status(200)
     res.json(user)
   } catch (error) {
+    log.error(error)
     res.status(500)
     error.message('Internal Server Error')
     res.set('Content-Type', 'text/plain')
@@ -57,6 +62,7 @@ router.put('/*', async (req: express.Request, res: express.Response) => {
     if (error.name === 'MissingResource')  {
       res.status(404)
     } else {
+      log.error(error)
       res.status(500)
     }
     res.set('Content-Type', 'text/plain')
@@ -72,6 +78,7 @@ router.delete('/*', async (req: express.Request, res: express.Response) => {
     res.status(200)
     res.json(user)
   } catch (error) {
+    log.error(error)
     res.status(500)
     error.message('Internal Server Error')
     res.set('Content-Type', 'text/plain')
