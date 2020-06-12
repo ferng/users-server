@@ -27,9 +27,10 @@ export async function getAllUsers(
 
 
 export async function createUser(
-  user: IUserDocument
+  user: IUserDocument,
 ): Promise<IUserDocument> {
-  await UserModel.create(user);
+  await UserModel.create(user)
+  await UserModel.populate(user, 'groups')
   return user
 }
 
@@ -54,6 +55,6 @@ export async function deleteUser(
   userId: string,
 ): Promise<IUserDocument> {
   let query: Query
-  query = await UserModel.findByIdAndDelete({'_id': userId}, {'rawResult': true})
+  query = await UserModel.findByIdAndDelete({'_id': userId}, {'rawResult': true}).populate('groups')
   return query.value 
 }

@@ -54,8 +54,8 @@ export class Generator {
       for (const user of users) {
         let userObj = new UserModel(user)
         let groups = await GroupModel.find().where('level').in(user.group_levels).exec();
-
         userObj.groups = groups
+        
         await UserModel.create(userObj)
         log.debug(`Created user ${user.name}`)
       }

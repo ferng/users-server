@@ -8,6 +8,6 @@ export const UserSchema: Schema = new Schema({
   dob: { type: Date},
   created: { type: Date },
   updated: { type: Date },
-  groups: [{ type: Schema.Types.ObjectId, ref: 'group'}]
+  groups: [{ type: Schema.Types.ObjectId, ref: 'group', required: true}]
 })
 

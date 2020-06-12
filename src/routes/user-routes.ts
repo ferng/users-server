@@ -25,7 +25,7 @@ router.get('/*', async (req: express.Request, res: express.Response) => {
     } else {
       log.error(error)
       res.status(500)
-      error.message('Internal Server Error')
+      error.message = 'Internal Server Error'
     }
     res.set('Content-Type', 'text/plain')
     res.send(error.message)
@@ -43,7 +43,7 @@ router.post('/*', async (req: express.Request, res: express.Response) => {
   } catch (error) {
     log.error(error)
     res.status(500)
-    error.message('Internal Server Error')
+    error.message = 'Internal Server Error'
     res.set('Content-Type', 'text/plain')
     res.send(error.message)
   }
@@ -80,7 +80,7 @@ router.delete('/*', async (req: express.Request, res: express.Response) => {
   } catch (error) {
     log.error(error)
     res.status(500)
-    error.message('Internal Server Error')
+    error.message = 'Internal Server Error'
     res.set('Content-Type', 'text/plain')
     res.send(error.message)
   }
