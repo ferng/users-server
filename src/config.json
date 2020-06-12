@@ -2,7 +2,7 @@
   "app": {
     "url_path": "users",
     "port": 3000,
-    "test_data": false
+    "test_data": true
   },
   "db": {
     "url": "mongodb://localhost:27017/main",

@@ -16,12 +16,12 @@ abstract class App {
   }
 
   static requestHandler(req: express.Request, res: express.Response, next: Function) {
-    App.log.debug('Inbound request:', req.method, req.originalUrl);
+    App.log.debug('Inbound request:', req.method, req.originalUrl)
     //     res.setHeader('Access-Control-Allow-Origin', config.app.base_url);
     //   res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT');
-    res.setHeader('Cache-Control', 'no-cache');
-    next();
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST,PUT')
+    res.setHeader('Cache-Control', 'no-cache')
+    next()
   }
 
   static start_server(): void {
@@ -32,11 +32,11 @@ abstract class App {
     const mongoose_debug = config.db.mongoose_debug
     const test_data = config.app.test_data
 
-    server.use(bodyParser.json());
-    server.use(bodyParser.urlencoded({ extended:  false }));
-    server.use(App.requestHandler);
-    server.use(`/${path}`, router);
-    server.listen(port);
+    server.use(bodyParser.json())
+    server.use(bodyParser.urlencoded({ extended:  false }))
+    server.use(App.requestHandler)
+    server.use(`/${path}`, router)
+    server.listen(port)
 
     const db = new Db(db_url)
     db.init()
@@ -49,7 +49,7 @@ abstract class App {
     mongoose.set('debug', mongoose_debug)
 
     if (test_data) {
-      Generator.users();
+      Generator.reset_db();
     }
   }
 }

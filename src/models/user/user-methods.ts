@@ -1,13 +1,14 @@
 import { Query } from "mongoose"
 import { IUserDocument, IUserModel } from "./user-types"
 import { UserModel } from './user-model'
+import { GroupModel } from '../group/group-model'
 
 
 export async function getUserById(
   userId: string
 ): Promise<IUserDocument> {
   let user : IUserDocument
-  user = await UserModel.findById(userId)
+  user = await UserModel.findById(userId).populate('groups').exec()
   if (user === null) {
     const error = new Error('User does not exist')
     error.name = 'MissingResource'
@@ -20,7 +21,7 @@ export async function getUserById(
 export async function getAllUsers(
 ): Promise<[IUserDocument]> {
   let users : [IUserDocument]
-  users = await UserModel.find({} )
+  users = await UserModel.find({}).populate('groups').exec()
   return users
 }
 
