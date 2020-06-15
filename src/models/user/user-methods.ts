@@ -29,8 +29,15 @@ export async function getAllUsers(
 export async function createUser(
   user: IUserDocument,
 ): Promise<IUserDocument> {
-  await UserModel.create(user)
+  let expectedGroups = user.groups.length
   await UserModel.populate(user, 'groups')
+  if (expectedGroups === user.groups.length) {
+    await UserModel.create(user)
+  } else {
+    const error = new Error('Group does not exist')
+    error.name = 'InvalidData'
+    throw error
+  }
   return user
 }
 
@@ -41,10 +48,18 @@ export async function updateUser(
 ): Promise<IUserDocument> {
   let query: Query
   delete user._id
-  query = await UserModel.replaceOne({'_id': userId}, user)
-  if (query.n === 0) {
-    const error = new Error('User does not exist so was not updated')
-    error.name = 'MissingResource'
+  let expectedGroups = user.groups.length
+  await UserModel.populate(user, 'groups')
+  if (expectedGroups === user.groups.length) {
+    query = await UserModel.replaceOne({'_id': userId}, user)
+    if (query.n === 0) {
+      const error = new Error('User does not exist so was not updated')
+      error.name = 'MissingResource'
+      throw error
+    } 
+  } else {
+    const error = new Error('Group does not exist')
+    error.name = 'InvalidData'
     throw error
   }
   return query.value
